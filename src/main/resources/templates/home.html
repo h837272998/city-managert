@@ -1,0 +1,176 @@
+<!doctype html>
+<html xml:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>YY-MSN</title>
+    <link rel="Shortcut Icon" href="images/yydou.ico">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script src="/js/axios.min.js"></script>
+</head>
+<body>
+<!-- header -->
+<div class="header">
+    <div class="top_nav">
+        <div class="container clear">
+            <a class="left" href="/manager">【进入后台】</a>
+            <span class="right">
+					<a href="#">设为主页</a>
+					<font>-</font>
+					<a href="#">收藏本页</a>
+					<font>-</font>
+					<a href="#">联系我们</a>
+				</span>
+        </div>
+    </div>
+    <div class="nav">
+        <div class="container clear">
+            <a href="index.html" class="left brand"><img src="images/heading.png" alt=""></a>
+            <div class="nav_bar right">
+                <p>
+                    <a href="index.html">首<i></i>页</a>
+                    <a href="">招聘信息</a>
+                    <a href="">培训信息</a>
+                    <a href="">房屋信息</a>
+                    <a href="">求购信息</a>
+                    <a href="">招商引资</a>
+                    <a href="">求购信息</a>
+                </p>
+                <p>
+                    <a href="">招商引资</a>
+                    <a href="">公寓信息</a>
+                    <a href="">求职信息</a>
+                    <a href="">家教信息</a>
+                    <a href="">车辆信息</a>
+                    <a href="">出售信息</a>
+                    <a href="">寻找启示</a>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- header end-->
+<!-- banner -->
+<div class="banner">
+    <a href="#"><img style="display:block;width:100%"
+                     src="images/banner/banner1.jpg" alt=""></a>
+</div>
+<!-- banner end-->
+<!-- content -->
+<div class="content bg-f2f2f2">
+    <div class="container">
+        <!-- section1 -->
+        <div class="section section1 clear">
+            <!-- content_main -->
+            <div class="content_main left recommend bg-white">
+                <div class="title">
+                    <h2>推荐信息</h2>
+                </div>
+                <div class="section_body">
+                    <div class="wrap">
+                        <div id="myApp">
+                            <!--<tr v-for="notice in notices1">-->
+                            <!--<a :href="'notice_info?id='notice.id"><em>【{{notice.type.name}}}】</em>{{notice.title}}</a>-->
+                            <!--</tr>-->
+                            <!--<input type="text" v-model="test"/>-->
+                            <!--<a v-for="notice in notices" v-href="'notice_info?id='notice.id"><em>【{{notice.type.name}}}】</em>{{notice.title}}</a>-->
+                            <a v-for="notice in notices" :href="'notices/'+notice.id"><em>【{{notice.type.name}}】</em>{{notice.title}}</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- content_main -->
+            <!-- content_sidebar -->
+            <div class="content_sidebar right bg-white">
+                <div class="sidebar quiz">
+                    <div class="title">
+                        <h2>客户提问</h2>
+                    </div>
+                    <div class="sidebar_body">
+                        <ul>
+                            <li><a href="city_info.html">唯品会（信义馆）成功签约</a></li>
+                            <li><a href="city_info.html">成功签约广东珠江食品公司</a></li>
+                            <li><a href="city_info.html">珠江新城富力盈凯办公室装修工程签约</a></li>
+                            <li><a href="#">广州三甲医疗公司设计签约成功</a></li>
+                            <li><a href="#">唯品会（信义馆）成功签约</a></li>
+                            <li><a href="#">唯品会（信义馆）成功签约</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- content_sidebar end-->
+        </div>
+        <!-- section1 end-->
+        <!-- section2 -->
+        <div class="section t-m20 bg-white honour">
+            <div class="title">
+                <h2>资质证书</h2>
+            </div>
+            <div class="section_body">
+                <div class="wrap">
+                    <img src="images/honour/honour1.jpg" alt="">
+                    <img src="images/honour/honour2.jpg" alt="">
+                    <img src="images/honour/honour3.jpg" alt="">
+                    <img src="images/honour/honour4.jpg" alt="">
+                    <img src="images/honour/honour5.jpg" alt="">
+                    <img src="images/honour/honour1.jpg" alt="">
+                    <img src="images/honour/honour2.jpg" alt="">
+                    <img src="images/honour/honour3.jpg" alt="">
+                    <img src="images/honour/honour4.jpg" alt="">
+                    <img src="images/honour/honour5.jpg" alt="">
+                </div>
+            </div>
+        </div>
+        <!-- section2 end-->
+
+    </div>
+</div>
+<!-- content end-->
+<!-- footer-->
+<div class="footer">
+    <div class="footer_body">
+        <span class="rightcopy"> Copyright ©360.cn. All Rights Reserved. 京ICP证080047号 京公网安备110000000006号</span>
+    </div>
+</div>
+<script>
+    var data4Vue = {
+        notices: [],
+        test: ""
+    };
+    var vue = new Vue({
+        el: '#myApp',
+        data: data4Vue,
+        mounted: function () { //mounted函数
+            this.list();
+        },
+        methods: {
+            list: function () {
+                axios.get("noticesIsPublish").then(function (result) {
+                    // var value = resulte.data;
+                    console.log(result);
+                    vue.notices = result.data;
+                    console.log(vue.notices);
+                })
+            }
+        }
+    })
+</script>
+<!-- footer end-->
+</body>
+
+
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a.js"></script>
+<script>
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+</html>

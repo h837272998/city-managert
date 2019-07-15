@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjh.h5citymanage.mapper.NoticeMapper">
+    <resultMap type="com.hjh.h5citymanage.pojo.Notice" id="NoticeBean">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="create_date" property="creatDate"></result>
+        <result column="publish_status" property="publishStatus"></result>
+        <result column="publish_date" property="publishDate"></result>
+        <collection property="user" ofType="com.hjh.h5citymanage.pojo.User">
+            <id column="uid" property="id"/>
+            <result column="uid" property="id"></result>
+            <result column="uname" property="name"></result>
+        </collection>
+        <collection property="type" ofType="com.hjh.h5citymanage.pojo.Type">
+            <id column="tid" property="id"/>
+            <result column="tname" property="name"></result>
+        </collection>
+    </resultMap>
+    <select id="getNotices" resultMap="NoticeBean">
+            select a.*,b.id tid,b.name tname,c.id uid,c.name uname FROM city_info_notice a LEFT JOIN city_info_type b on a.type_id = b.id LEFT JOIN city_info_user c on a.user_id=c.id
+        </select>
+
+    <select id="getNoticesIsPublish" resultMap="NoticeBean">
+            select a.*,b.id tid,b.name tname,c.id uid,c.name uname FROM city_info_notice a LEFT JOIN city_info_type b on a.type_id = b.id LEFT JOIN city_info_user c on a.user_id=c.id where publish_status=1
+        </select>
+
+    <select id="getNoticeById" parameterType="_int" resultMap="NoticeBean">
+            select a.*,b.id tid,b.name tname,c.id uid,c.name uname FROM city_info_notice a LEFT JOIN city_info_type b on a.type_id = b.id LEFT JOIN city_info_user c on a.user_id=c.id where a.id= #{id}
+        </select>
+
+    <update id="setPublishStatusIsZore" parameterType="List">
+        update city_info_notice set publish_status=1,publish_date=now() where id in
+        <foreach collection="list" index="index" item="item"
+                 separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="_int">
+        delete from city_info_notice where id=#{id}
+    </delete>
+
+    <update id="updateNotice" parameterType="Notice">
+        update city_info_notice set title=#{title},content=#{content},type_id = #{type.id} where id = #{id}
+    </update>
+
+    <insert id="addNotice" parameterType="Notice">
+        INSERT  into city_info_notice(title,content,create_date,user_id,type_id,publish_status) value(#{title},#{content},now(),#{user.id},#{type.id},0)
+    </insert>
+</mapper>

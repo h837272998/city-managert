@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjh.h5citymanage.mapper.UserMapper">
+    <!--<insert id="add" parameterType="User">-->
+    <!--insert into t3_user ( name,password,fullname,email) values (#{name},#{password},#{fullname},#{email})-->
+    <!--</insert>-->
+
+    <!--<delete id="delete" parameterType="User">-->
+    <!--delete from t3_user where id= #{id}-->
+    <!--</delete>-->
+
+    <!--<select id="get" parameterType="_int" resultType="User">-->
+    <!--select * from   t3_user  where id= #{id}-->
+    <!--</select>-->
+
+    <!--<update id="update" parameterType="User">-->
+    <!--update t3_user set name=#{name},password=#{password},fullname=#{fullname},email=#{email} where id=#{id}-->
+    <!--</update>-->
+
+    <!--<select id="list" resultType="User">-->
+    <!--select * from t3_user-->
+    <!--</select>-->
+
+    <select id="loginValidate" parameterType="User" resultType="User">
+            select * from city_info_user where name=#{name} and password=#{password}
+        </select>
+
+    <select id="getUserByName" resultType="User">
+            select * from city_info_user where name=#{name}
+        </select>
+</mapper>
